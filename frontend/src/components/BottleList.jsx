@@ -29,7 +29,7 @@ export default function BottleList() {
             }
         };
 
-        fetchBottles();
+        fetchBottles()
     }, []); //The empty array ensures this only runs once when loaded
 
     // 3. Handle loading and error states
