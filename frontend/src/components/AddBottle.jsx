@@ -8,36 +8,42 @@ export default function AddBottle({ onBottleAdded }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await fetch('http://127.0.0.1:8000/api/bottles/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: name,
-                abv: abv,
-                distillery: distilleryId,
-                description: ''
-            })
-        });
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/bottles/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    abv: abv,
+                    distillery: distilleryId,
+                    description: ''
+                })
+            });
 
-        if (response.ok) {
-            //Clear the form
-            setName('');
-            setAbv('');
-            setDistilleryId('');
-            //Trigger a refresh og the list
-            onBottleAdded();
+            if (response.ok) {
+                // Clear the form fields
+                setName('');
+                setAbv('');
+                setDistilleryId('');
+                // Trigger a refresh of the list in App.jsx
+                onBottleAdded();
+            } else {
+                console.error("Failed to add bottle. Check your Distillery ID.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ marginBottom: '2rem', padding: '1rem', border: '1px solid #ddd', borderRadius: '8px' }}>
+        <form onSubmit={handleSubmit} className="bottle-form">
             <h2>Add a New Bottle</h2>
-            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+            <div className="form-inputs">
                 <input
                     type="text"
-                    placeholder="Bottle Name (e.g. Signatory Vintage)"
+                    placeholder="Bottle Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
@@ -58,7 +64,7 @@ export default function AddBottle({ onBottleAdded }) {
                     required
                 />
             </div>
-            <button type="submit" style={{ padding: '0.5rem 1rem', cursor: 'pointer' }}>Save Bottle</button>
+            <button type="submit" className="submit-btn">Save Bottle</button>
         </form>
     );
 }
