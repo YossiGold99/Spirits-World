@@ -35,7 +35,12 @@ export default function BottleList() {
             <ul className="bottle-grid">
                 {bottles.map((bottle) => (
                     <li key={bottle.id} className="bottle-card">
-                        <h3>{bottle.distillery_name} {bottle.name}</h3>
+                        {/* The new card header layout */}
+                        <div className="card-header">
+                            <span className="distillery-label">{bottle.distillery_name}</span>
+                            <h3 className="bottle-title">{bottle.name}</h3>
+                        </div>
+
                         <p><strong>ABV:</strong> {bottle.abv}%</p>
                         {bottle.description && <p><em>{bottle.description}</em></p>}
                     </li>
